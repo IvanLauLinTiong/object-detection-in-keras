@@ -27,3 +27,20 @@ def read_sample(image_path, label_path):
     bboxes, classes = pascal_voc_utils.read_label(label_path)
     image = cv2.imread(image_path)  # read image in bgr format
     return np.array(image, dtype=np.float), np.array(bboxes, dtype=np.float), classes
+
+
+def read_sample_df(sample):
+    assert os.path.exists(sample.image_path), "Image file does not exist."
+    bboxes, classes = [], []
+    if sample.annotations:
+        for annot in sample.annotations:
+            xmin = float(annot[0])
+            ymin = float(annot[1])
+            xmax = float(annot[2])
+            ymax = float(annot[3])
+            bboxes.append([xmin, ymin, xmax, ymax])
+            classes.append(sample.label)
+    else:
+        classes.append(sample.label)
+    image = cv2.imread(sample.image_path)  # read image in bgr format
+    return np.array(image, dtype=np.float), np.array(bboxes, dtype=np.float), classes
