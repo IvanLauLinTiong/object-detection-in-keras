@@ -36,6 +36,10 @@ def resize_to_fixed_size(width, height):
         temp_image = cv2.resize(temp_image, (width, height))
         temp_image = np.array(temp_image, dtype=np.float)
         temp_bboxes = bboxes.copy()
+
+        print("ivan During augm temp_bboxes: ", temp_bboxes)
+
+
         temp_bboxes[:, [0, 2]] *= width_scale
         temp_bboxes[:, [1, 3]] *= height_scale
         temp_bboxes[:, [0, 2]] = np.clip(temp_bboxes[:, [0, 2]], 0, width)
