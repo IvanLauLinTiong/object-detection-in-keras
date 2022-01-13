@@ -118,7 +118,6 @@ class SSD_DATA_GENERATOR(tf.keras.utils.Sequence):
         return np.tile(template, (self.batch_size, 1, 1))
 
     def __augment(self, image, bboxes, classes):
-        print("ivan during aug classes,", classes)
         augmented_image, augmented_bboxes, augmented_classes = image, bboxes, classes
         for aug in self.augmentations:
             augmented_image, augmented_bboxes, augmented_classes = aug(

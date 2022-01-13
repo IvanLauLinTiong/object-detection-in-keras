@@ -41,7 +41,7 @@ def read_sample_df(sample):
             bboxes.append([xmin, ymin, xmax, ymax])
             classes.append(sample.label)
     else:
-        bboxes.append([])
+        bboxes.append([]) # TODO to be fixed bbox for negative sample
         classes.append(sample.label)
     image = cv2.imread(sample.image_path)  # read image in bgr format
     return np.array(image, dtype=np.float), np.array(bboxes, dtype=np.float), classes
