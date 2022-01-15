@@ -161,7 +161,7 @@ def SSD_MOBILENETV2(
 
     decoded_predictions = DecodeSSDPredictions(
         input_size=model_config["input_size"],
-        num_predictions=num_predictions,
+        num_predictions=num_predictions,    # TODO add more configured params
         name="decoded_predictions"
     )(predictions)
 
