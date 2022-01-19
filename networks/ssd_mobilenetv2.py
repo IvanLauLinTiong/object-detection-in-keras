@@ -48,7 +48,7 @@ def SSD_MOBILENETV2(
         weights=weights_for_mobilenetv2 if weights_for_mobilenetv2 else 'imagenet',
         include_top=False
     )
-    print("base network summary:," base_network.summary())
+    print("base network summary:", base_network.summary())
     base_network = Model(inputs=base_network.input, outputs=base_network.get_layer(
         'block_16_project_BN').output)
     base_network.get_layer("input_1")._name = "input"
