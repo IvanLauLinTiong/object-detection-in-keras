@@ -12,7 +12,8 @@ def SSD_MOBILENETV2(
     label_maps,
     num_predictions=10,
     is_training=True,
-    weights_for_mobilenetv2=None
+    weights_for_mobilenetv2=None,
+    return_backbone=False
 ):
     """ Construct an SSD network that uses MobileNetV1 backbone.
 
@@ -22,6 +23,7 @@ def SSD_MOBILENETV2(
         - num_predictions: The number of predictions to produce as final output
         - is_training: whether the model is constructed for training purpose or inference purpose
         - weights_for_mobilenetv2: The path string to the weights file to be loaded. If None, default ImageNet weights is donwloaded.
+        - return_backbone: Whether to return MobileNetV2 base model. If True, returned output will a tuple of (SSD_MobileNetv2 Model, MobileNetv2 Model).
 
     Returns:
         - A keras version of SSD300 with MobileNetV2 as backbone network.
@@ -159,6 +161,8 @@ def SSD_MOBILENETV2(
         axis=-1, name='predictions')([mbox_conf_softmax, mbox_loc, mbox_default_boxes])
 
     if is_training:
+        if return_backbone:
+            return Model(inputs=base_network.input, outputs=predictions), base_network
         return Model(inputs=base_network.input, outputs=predictions)
 
     decoded_predictions = DecodeSSDPredictions(
@@ -166,5 +170,8 @@ def SSD_MOBILENETV2(
         num_predictions=num_predictions,    # TODO add more configured params
         name="decoded_predictions"
     )(predictions)
+
+    if return_backbone:
+        return Model(inputs=base_network.input, outputs=decoded_predictions), base_network
 
     return Model(inputs=base_network.input, outputs=decoded_predictions)
