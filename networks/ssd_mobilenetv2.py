@@ -13,7 +13,8 @@ def SSD_MOBILENETV2(
     num_predictions=10,
     is_training=True,
     weights_for_mobilenetv2=None,
-    return_backbone=False
+    return_backbone=False,
+    finetune_backbone_at=None
 ):
     """ Construct an SSD network that uses MobileNetV1 backbone.
 
@@ -24,6 +25,7 @@ def SSD_MOBILENETV2(
         - is_training: whether the model is constructed for training purpose or inference purpose
         - weights_for_mobilenetv2: The path string to the weights file to be loaded. If None, default ImageNet weights is donwloaded.
         - return_backbone: Whether to return MobileNetV2 base model. If True, returned output will a tuple of (SSD_MobileNetv2 Model, MobileNetv2 Model).
+        - finetune_backbone_at: layer of backbone to fine tune onwards aka. setting each layer in base_model.layers[finetune_backbone_at:] to True. If None, no fine tuning is done.
 
     Returns:
         - A keras version of SSD300 with MobileNetV2 as backbone network.
@@ -53,10 +55,19 @@ def SSD_MOBILENETV2(
     base_network = Model(inputs=base_network.input, outputs=base_network.get_layer(
         'block_16_project_BN').output)
     base_network.get_layer("input_1")._name = "input"
-    for layer in base_network.layers:
-        base_network.get_layer(layer.name)._kernel_initializer = "he_normal"
-        base_network.get_layer(layer.name)._kernel_regularizer = l2(l2_reg)
-        layer.trainable = False  # each layer of the base network should not be trainable
+
+    if finetune_backbone_at:
+        for layer in base_network.layers:
+            base_network.get_layer(layer.name)._kernel_initializer = "he_normal"
+            base_network.get_layer(layer.name)._kernel_regularizer = l2(l2_reg) 
+        base_network.trainable = True
+        for layer in base_network.layers[:finetune_backbone_at]:
+            layer.trainable = False  # each layer of the base network before 'finetune_backbone_at' should not be trainable
+    else:
+        for layer in base_network.layers:
+            base_network.get_layer(layer.name)._kernel_initializer = "he_normal"
+            base_network.get_layer(layer.name)._kernel_regularizer = l2(l2_reg)
+            layer.trainable = False  # each layer of the base network should not be trainable
 
     conv_13 = base_network.get_layer("block_13_expand_relu").output
     conv_16 = base_network.get_layer('block_16_project_BN').output
