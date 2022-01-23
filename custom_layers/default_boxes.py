@@ -89,9 +89,7 @@ class DefaultBoxes(Layer):
             "extra_box_for_ar_1": self.extra_box_for_ar_1,
             "clip_boxes": self.clip_boxes,
             "variances": self.variances,
-            "offset": self.offset,
-            "feature_map_size": self.feature_map_size,
-            "image_size": self.image_size
+            "offset": self.offset
         }
         base_config = super(DefaultBoxes, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
