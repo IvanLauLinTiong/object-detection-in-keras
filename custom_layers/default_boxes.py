@@ -50,6 +50,7 @@ class DefaultBoxes(Layer):
         self.clip_boxes = clip_boxes,
         self.variances = variances
         self.offset = offset
+        print("Ivan kwargs: ", **kwargs)
         super(DefaultBoxes, self).__init__(**kwargs)
 
     def build(self, input_shape):
@@ -89,11 +90,13 @@ class DefaultBoxes(Layer):
             "extra_box_for_ar_1": self.extra_box_for_ar_1,
             "clip_boxes": self.clip_boxes,
             "variances": self.variances,
-            "offset": self.offset
+            "offset": self.offset,
+            # "feature_map_size": self.feature_map_size,
+            # "image_size": self.image_size
         }
         base_config = super(DefaultBoxes, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
-    @classmethod
-    def from_config(cls, config):
-        return cls(**config)
+    # @classmethod
+    # def from_config(cls, config):
+    #     return cls(**config)
