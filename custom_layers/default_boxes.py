@@ -92,8 +92,8 @@ class DefaultBoxes(Layer):
             "clip_boxes": self.clip_boxes,
             "variances": self.variances,
             "offset": self.offset,
-            # "feature_map_size": self.feature_map_size,
-            # "image_size": self.image_size
+            "feature_map_size": self.feature_map_size,
+            "image_size": self.image_size
         }
         base_config = super(DefaultBoxes, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
