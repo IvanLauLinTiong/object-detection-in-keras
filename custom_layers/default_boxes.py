@@ -50,8 +50,8 @@ class DefaultBoxes(Layer):
         self.clip_boxes = clip_boxes,
         self.variances = variances
         self.offset = offset
-        a = kwargs
-        print("Ivan kwargs: ", a)
+        print("ivan")
+        print(kwargs)
         super(DefaultBoxes, self).__init__(**kwargs)
 
     def build(self, input_shape):
