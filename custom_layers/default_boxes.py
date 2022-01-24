@@ -40,6 +40,8 @@ class DefaultBoxes(Layer):
         offset=(0.5, 0.5),
         extra_box_for_ar_1=True,
         clip_boxes=True,
+        feature_map_size=0,
+        image_size=0,
         **kwargs
     ):
         self.image_shape = image_shape
@@ -50,8 +52,12 @@ class DefaultBoxes(Layer):
         self.clip_boxes = clip_boxes,
         self.variances = variances
         self.offset = offset
+
+        self.feature_map_size = feature_map_size
+        self.image_size = image_size
         print("ivan")
         print(kwargs)
+        
         super(DefaultBoxes, self).__init__(**kwargs)
 
     def build(self, input_shape):
@@ -100,6 +106,6 @@ class DefaultBoxes(Layer):
         base_config = super(DefaultBoxes, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
-    # @classmethod
-    # def from_config(cls, config):
-    #     return cls(**config)
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
