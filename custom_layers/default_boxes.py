@@ -40,8 +40,8 @@ class DefaultBoxes(Layer):
         offset=(0.5, 0.5),
         extra_box_for_ar_1=True,
         clip_boxes=True,
-        # feature_map_size=0,
-        # image_size=0,
+        feature_map_size=0,
+        image_size=0,
         **kwargs
     ):
         self.image_shape = image_shape
@@ -53,10 +53,8 @@ class DefaultBoxes(Layer):
         self.variances = variances
         self.offset = offset
 
-        # self.feature_map_size = feature_map_size
-        # self.image_size = image_size
-        print("ivan")
-        print(kwargs)
+        self.feature_map_size = feature_map_size
+        self.image_size = image_size
         
         super(DefaultBoxes, self).__init__(**kwargs)
 
