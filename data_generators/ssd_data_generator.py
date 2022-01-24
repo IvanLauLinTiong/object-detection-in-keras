@@ -242,12 +242,6 @@ class SSD_DATA_GENERATOR(tf.keras.utils.Sequence):
                     width = abs(bbox[2] - bbox[0]) / self.input_size
                     height = abs(bbox[3] - bbox[1]) / self.input_size
                     gt_boxes[i] = [cx, cy, width, height]
-
-                    print("ivan")
-                    print(self.label_maps)
-                    print(classes[i])
-
-
                     gt_classes[i] = one_hot_class_label(classes[i], self.label_maps)
 
                 matches, neutral_boxes = ssd_utils.match_gt_boxes_to_default_boxes(
